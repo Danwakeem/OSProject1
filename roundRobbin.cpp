@@ -7,6 +7,7 @@ void runRoundRobbin(vector<Process> set){
    int quantum = ROBBINQUANTUM; //Quantum variable because it can be increase if a process doesnt use all of its quantam
    int cycleCount = 0; //Count of total cycles
    int removed = 0; //Keep track of how many proccess have been removed from the round robbin queue
+   int penaltyCount = 0;
 
    queue.push_back(createNewRobbin(set[index++],cycleCount));
    vector<Robbin>::iterator it = queue.begin();
@@ -38,6 +39,7 @@ void runRoundRobbin(vector<Process> set){
             vIndex = -1;
          vIndex++; count++;
       }while(queue[vIndex].cyclesRemaining <= 0 && count < queue.size());
+      penaltyCount++;
    }
 
    //Sum all of the wait times calculate the wait time
@@ -47,6 +49,7 @@ void runRoundRobbin(vector<Process> set){
       sumOfWaitTimes += r.totalWaitTime;
    }
    cout << "Average wait time for round robbin is: " << sumOfWaitTimes / set.size() << endl;
+   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << endl; 
 
 }
 
