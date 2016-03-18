@@ -49,7 +49,7 @@ void runRoundRobbin(vector<Process> set){
       sumOfWaitTimes += r.totalWaitTime;
    }
    cout << "Average wait time for round robbin is: " << sumOfWaitTimes / set.size() << endl;
-   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << endl; 
+   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << " cyeles" << endl; 
 
 }
 
