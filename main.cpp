@@ -1,6 +1,7 @@
 #include "defines.h"
 #include "processGenerator.h"
 #include "fifo.h"
+#include "roundRobbin.h"
 
 int main(){
    vector<Process> set;
@@ -23,7 +24,8 @@ int main(){
    testSet.push_back(p6); 
    testSet.push_back(p7); 
    */
-   runFifo(set);
+   //runFifo(set);
+   runRoundRobbin(set);
 
    return 0;
 }
