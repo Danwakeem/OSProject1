@@ -1,6 +1,6 @@
 # HEY ANDY
 
-This code is pretty awful I am just trying to get it done quickly so we can write our paper.
+This code is pretty awful so sorry if it is hard to follow. I am just trying to get it done quickly so we can write our paper.
 
 ### Things we have left to do
 - ~~Implement FIFO~~
