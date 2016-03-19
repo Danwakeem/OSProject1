@@ -1,7 +1,5 @@
 #include "roundRobbin.h"
 
-
-
 void runRoundRobbinOnce(vector<Process> set){
    ReturnRR r = runRoundRobbin(set);
    vector<Robbin> queue = r.q;
@@ -25,6 +23,26 @@ void runRoundRobbinOnce(vector<Process> set){
 void runRoundRobbinAsThread(vector<Process> set){
    //Here we might be able to split the set into 4 and run the run function 4 times
    //instead of creating threads
+   vector< vector<Process> > sets = breakIntoSubSet(set);
+
+   //Run SJF for 4 different CPUs on a sub set of the total sets
+   int averageWaitTimeSum = 0;
+   int totalContextSwitches = 0;
+
+   for(int i = 0; i < NUMCPU; i++){
+      ReturnRR r = runRoundRobbin(sets[i]);
+
+      //Calculate average wait time for each CPU Round Robbin
+      int totalWaitTimes = 0;
+      for(int j = 0; j < r.q.size(); j++){
+         totalWaitTimes += r.q[j].totalWaitTime;
+      }
+      averageWaitTimeSum += totalWaitTimes/r.q.size();
+      totalContextSwitches += r.totalContextSwitches;
+   }
+
+   cout << "Average wait time for threaded Round Robbin was " << averageWaitTimeSum / NUMCPU << endl;
+   cout << "Average context switches for threaded Round Robbin was " << totalContextSwitches / NUMCPU << endl << endl;
 }
 
 ReturnRR runRoundRobbin(vector<Process> set){

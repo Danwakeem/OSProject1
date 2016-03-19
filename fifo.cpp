@@ -18,6 +18,21 @@ void runFifoOnce(vector<Process> set){
 void runFifoAsThread(vector<Process> set){
    //Here we might be able to split the set into 4 and run the run function 4 times
    //instead of creating threads
+   vector< vector<Process> > sets = breakIntoSubSet(set);
+
+   int averageWaitTimeSum = 0; //Store total wait time
+   int totalContextSwitches = 0; //Store total context switches
+
+   //Run FIFO for 4 different CPUs on a sub set of the total sets
+   for(int i = 0; i < NUMCPU; i++){
+      ReturnFIFO r = runFifo(sets[i]);
+      averageWaitTimeSum += r.totalWaitTimes;
+      totalContextSwitches += r.totalContextSwitches;
+   }
+
+   //Print averages
+   cout << "Average wait time for threaded FIFO was " << averageWaitTimeSum / NUMCPU << endl;
+   cout << "Average context switches for threaded FIFO was " << totalContextSwitches / NUMCPU << endl << endl;
 }
 
 ReturnFIFO runFifo(vector<Process> set){

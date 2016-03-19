@@ -15,7 +15,7 @@ typedef struct ReturnSJF{
 }ReturnSJF;
 
 void runSJFOnce(vector<Process> set);
-void runSJFAsThreads(vector<Process> set);
+void runSJFAsThread(vector<Process> set);
 ReturnSJF runSJF(vector<Process> set);
 void printHistogram(vector<Runtime> final, int totalCycleTime);
 void printCSV(vector<Runtime>final, int totalCycleTime);

@@ -18,9 +18,30 @@ void runSJFOnce(vector<Process> set){
    printCSV(finalQueue,totalCycleTime);
 }
 
-void runAsThread(vector<Process> set){
+void runSJFAsThread(vector<Process> set){
    //Here we might be able to split the set into 4 and run the run function 4 times
    //instead of creating threads
+   vector< vector<Process> > sets = breakIntoSubSet(set);
+
+   //Run SJF for 4 different CPUs on a sub set of the total sets
+   
+   int averageWaitTimeSum = 0;
+   int totalContextSwitches = 0;
+
+   for(int i = 0; i < NUMCPU; i++){
+      ReturnSJF r = runSJF(sets[i]);
+
+      //Calculate average wait time for each CPU SJF
+      int totalWaitTimes = 0;
+      for(int j = 0; j < r.q.size(); j++){
+         totalWaitTimes += r.q[j].waitTime;
+      }
+      averageWaitTimeSum += totalWaitTimes/r.q.size();
+      totalContextSwitches += r.totalContextSwitches;
+   }
+
+   cout << "Average wait time for threaded SJF was " << averageWaitTimeSum / NUMCPU << endl;
+   cout << "Average context switches for threaded SJF was " << totalContextSwitches / NUMCPU << endl;
 }
 
 ReturnSJF runSJF(vector<Process> set){

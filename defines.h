@@ -23,6 +23,7 @@
 //#define NEWPROCESSCYCLES 5
 #define NEWPROCESSCYCLES 50
 #define ROBBINQUANTUM 50
+#define NUMCPU 4
 
 using namespace std;
 
@@ -38,5 +39,7 @@ typedef struct RandomNumbers {
    int cycles;
    int mem;
 }RandomNumbers;
+
+vector< vector<Process> > breakIntoSubSet(vector<Process> set);
 
 #endif

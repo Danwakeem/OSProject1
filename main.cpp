@@ -27,8 +27,11 @@ int main(){
    */
    cout << endl << endl;
    runFifoOnce(set);
-   runRoundRobbin(set);
+   runFifoAsThread(set);
+   runRoundRobbinOnce(set);
+   runRoundRobbinAsThread(set);
    runSJFOnce(set);
+   runSJFAsThread(set);
    cout << endl << endl;
 
    return 0;
