@@ -9,6 +9,9 @@ typedef struct Runtime {
 }Rumtime;
 
 void runSJF(vector<Process> set);
+void printHistogram(vector<Runtime> final, int totalCycleTime);
+void printCSV(vector<Runtime>final, int totalCycleTime);
+bool cmpPid(const Runtime &a, const Runtime &b);
 bool cmpRuntimes(const Runtime &a, const Runtime &b);
 Runtime createNewRuntime(Process p, int cycleTime);
 

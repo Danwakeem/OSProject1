@@ -25,9 +25,11 @@ int main(){
    testSet.push_back(p6); 
    testSet.push_back(p7); 
    */
-   //runFifo(set);
-   //runRoundRobbin(set);
+   cout << endl << endl;
+   runFifo(set);
+   runRoundRobbin(set);
    runSJF(set);
+   cout << endl << endl;
 
    return 0;
 }

@@ -6,6 +6,8 @@ void runFifo(vector<Process> set){
   int totalWaitTimes = 0;
   int totalCycles = 0;
   int offSet = 0;
+  int totalContextSwitches = 0;
+
   for(int i = 0; i < set.size(); i++){
      Process p = set[i];
      if(i == 0){
@@ -28,11 +30,21 @@ void runFifo(vector<Process> set){
            }
         }
      }
+     totalContextSwitches++;
   }
 
   float averageWaitTime = totalWaitTimes / set.size();
-  cout << "Average wait time was: " << averageWaitTime << " cycles" << endl;
+  cout << "Average wait time for FIFO was: " << averageWaitTime << " cycles" << endl;
+  cout << "There were " << totalContextSwitches - 1 << " context switches for FIFO with a penalty of " << (totalContextSwitches-1)*CONTEXTSWITCH << " cycles " << endl;
+  cout << endl;
+  printCSV(set,totalWait);
+  cout << endl;
+}
 
+void printCSV(vector<Process> set,vector<int> totalWait){
+   for(int i = 0; i < set.size(); i++){
+      cout << set[i].pid << "," << totalWait[i] << "," << set[i].cycles << endl;
+   }
 }
 
 void printFifoData(vector<Process> set, int talliedWait, vector<int> processWaitTime,int totalCycles){

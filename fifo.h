@@ -4,6 +4,7 @@
 #include <sys/time.h>
 
 void runFifo(vector<Process> set);
+void printCSV(vector<Process> set, vector<int> totalWait);
 void printFifoData(vector<Process> set, int talliedWait, vector<int> processWaitTime, int totalCycles);
 void printHistogram(vector<Process> set, int totalCycles);
 

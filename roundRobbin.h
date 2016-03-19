@@ -10,6 +10,7 @@ typedef struct Robbin {
 }Robbin;
 
 void runRoundRobbin(vector<Process> set);
+void printCSV(vector<Robbin>queue);
 Robbin createNewRobbin(Process p, int cycleCount);
 
 #endif

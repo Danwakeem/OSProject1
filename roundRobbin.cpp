@@ -48,9 +48,18 @@ void runRoundRobbin(vector<Process> set){
       Robbin r = queue[i];
       sumOfWaitTimes += r.totalWaitTime;
    }
-   cout << "Average wait time for round robbin is: " << sumOfWaitTimes / set.size() << endl;
-   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << endl; 
+   cout << "Average wait time for round robbin was: " << sumOfWaitTimes / set.size() << endl;
+   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << " cycles" << endl; 
+   cout << endl;
+   printCSV(queue);
+   cout << endl;
 
+}
+
+void printCSV(vector<Robbin>queue){
+   for(int i = 0; i < queue.size(); i++){
+      cout << queue[i].p.pid << "," << queue[i].totalWaitTime << "," << queue[i].p.cycles << endl;
+   }
 }
 
 //Function to make it easier to create a new robbin process for the vector
