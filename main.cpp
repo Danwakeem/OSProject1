@@ -2,6 +2,7 @@
 #include "processGenerator.h"
 #include "fifo.h"
 #include "roundRobbin.h"
+#include "sjf.h"
 
 int main(){
    vector<Process> set;
@@ -25,7 +26,8 @@ int main(){
    testSet.push_back(p7); 
    */
    //runFifo(set);
-   runRoundRobbin(set);
+   //runRoundRobbin(set);
+   runSJF(set);
 
    return 0;
 }
