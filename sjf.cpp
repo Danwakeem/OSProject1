@@ -32,9 +32,12 @@ void runSJF(vector<Process> set){
       sort(queue.begin(),queue.end(),cmpRuntimes); 
    } 
 
+   int totalWaitTime = 0;
    for(int i = 0; i < finalQueue.size(); i++){
+      totalWaitTime += finalQueue[i].waitTime;
       cout << finalQueue[i].p.pid << " " << finalQueue[i].waitTime << endl;
    }
+   cout << "Average wait time for SJF is: " << totalWaitTime / set.size() << endl;
 
 }
 
