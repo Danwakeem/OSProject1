@@ -1,6 +1,26 @@
 #include "fifo.h"
 
-void runFifo(vector<Process> set){
+void runFifoOnce(vector<Process> set){
+   ReturnFIFO r = runFifo(set);
+   int totalWaitTimes = r. totalWaitTimes;
+   vector<int> totalWait= r.totalWait;
+   int totalCycles = r.totalCycles;
+   int totalContextSwitches = r.totalContextSwitches;
+ 
+   float averageWaitTime = totalWaitTimes / set.size();
+   cout << "Average wait time for FIFO was: " << averageWaitTime << " cycles" << endl;
+   cout << "There were " << totalContextSwitches - 1 << " context switches for FIFO with a penalty of " << (totalContextSwitches-1)*CONTEXTSWITCH << " cycles " << endl;
+   cout << endl;
+   printCSV(set,totalWait);
+   cout << endl;
+}
+
+void runFifoAsThread(vector<Process> set){
+   //Here we might be able to split the set into 4 and run the run function 4 times
+   //instead of creating threads
+}
+
+ReturnFIFO runFifo(vector<Process> set){
   vector<int> waitPenalty;
   vector<int> totalWait;
   int totalWaitTimes = 0;
@@ -33,12 +53,7 @@ void runFifo(vector<Process> set){
      totalContextSwitches++;
   }
 
-  float averageWaitTime = totalWaitTimes / set.size();
-  cout << "Average wait time for FIFO was: " << averageWaitTime << " cycles" << endl;
-  cout << "There were " << totalContextSwitches - 1 << " context switches for FIFO with a penalty of " << (totalContextSwitches-1)*CONTEXTSWITCH << " cycles " << endl;
-  cout << endl;
-  printCSV(set,totalWait);
-  cout << endl;
+  return createReturnFIFO(totalWait,totalWaitTimes,totalCycles,totalContextSwitches);
 }
 
 void printCSV(vector<Process> set,vector<int> totalWait){
@@ -73,4 +88,13 @@ void printHistogram(vector<Process> set, int totalCycles){
       cout << endl;
    }
    cout << "    -------------------------------------------------------" << endl;
+}
+
+ReturnFIFO createReturnFIFO(vector<int> tw, int twt, int tc, int tcs){
+   ReturnFIFO r;
+   r.totalWait = tw;
+   r.totalWaitTimes = twt;
+   r.totalCycles = tc;
+   r.totalContextSwitches = tcs;
+   return r;
 }

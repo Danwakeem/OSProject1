@@ -1,6 +1,33 @@
 #include "roundRobbin.h"
 
-void runRoundRobbin(vector<Process> set){
+
+
+void runRoundRobbinOnce(vector<Process> set){
+   ReturnRR r = runRoundRobbin(set);
+   vector<Robbin> queue = r.q;
+   int penaltyCount = r.totalContextSwitches; 
+   int totalCycles = r.totalCycles; 
+
+   //Sum all of the wait times calculate the wait time
+   int sumOfWaitTimes = 0;
+   for(int i = 0; i < queue.size(); i++){
+      Robbin r = queue[i];
+      sumOfWaitTimes += r.totalWaitTime;
+   }
+   cout << "Average wait time for round robbin was: " << sumOfWaitTimes / set.size() << endl;
+   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << " cycles" << endl;
+   cout << endl;
+   printCSV(queue);
+   cout << endl;
+
+}
+
+void runRoundRobbinAsThread(vector<Process> set){
+   //Here we might be able to split the set into 4 and run the run function 4 times
+   //instead of creating threads
+}
+
+ReturnRR runRoundRobbin(vector<Process> set){
    vector<Robbin> queue; //Round robbin queue
    int index = 0; //This keeps track of index in original set
    int vIndex = 0; //I tired using an iterator but accessing elements in the vector from an index is easier because the vector address space is reset when you add elements
@@ -42,17 +69,7 @@ void runRoundRobbin(vector<Process> set){
       penaltyCount++;
    }
 
-   //Sum all of the wait times calculate the wait time
-   int sumOfWaitTimes = 0;
-   for(int i = 0; i < queue.size(); i++){
-      Robbin r = queue[i];
-      sumOfWaitTimes += r.totalWaitTime;
-   }
-   cout << "Average wait time for round robbin was: " << sumOfWaitTimes / set.size() << endl;
-   cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << " cycles" << endl; 
-   cout << endl;
-   printCSV(queue);
-   cout << endl;
+   return createReturnRR(queue,penaltyCount*ROBBINQUANTUM,penaltyCount);
 
 }
 
@@ -69,5 +86,13 @@ Robbin createNewRobbin(Process p, int cycleCount){
    r.cyclesRemaining = p.cycles;
    r.lastCycleCount = cycleCount;
    r.totalWaitTime = 0;
+   return r;
+}
+
+ReturnRR createReturnRR(vector<Robbin> q, int totalCycles, int totalContextSwitches){
+   ReturnRR r;
+   r.q = q;
+   r.totalCycles = totalCycles;
+   r.totalContextSwitches = totalContextSwitches;
    return r;
 }

@@ -9,8 +9,17 @@ typedef struct Robbin {
    int totalWaitTime;
 }Robbin;
 
-void runRoundRobbin(vector<Process> set);
+typedef struct ReturnRR{
+   vector<Robbin> q;
+   int totalCycles;
+   int totalContextSwitches;
+}ReturnRR;
+
+void runRoundRobbinOnce(vector<Process> set);
+void runRoundRobbinAsThread(vector<Process> set);
+ReturnRR runRoundRobbin(vector<Process> set);
 void printCSV(vector<Robbin>queue);
 Robbin createNewRobbin(Process p, int cycleCount);
+ReturnRR createReturnRR(vector<Robbin> q, int totalCycles, int totalContextSwitches);
 
 #endif

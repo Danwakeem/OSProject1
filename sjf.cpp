@@ -1,6 +1,29 @@
 #include "sjf.h"
 
-void runSJF(vector<Process> set){
+void runSJFOnce(vector<Process> set){
+   ReturnSJF r = runSJF(set);
+   vector<Runtime> finalQueue = r.q;
+   int totalContextSwitches = r.totalContextSwitches;
+   int totalCycleTime = r.totalCycleTime;
+
+   int totalWaitTime = 0;
+   for(int i = 0; i < finalQueue.size(); i++){
+      totalWaitTime += finalQueue[i].waitTime;
+      //cout << finalQueue[i].p.pid << " " << finalQueue[i].waitTime << endl;
+   }
+   cout << "Average wait time for SJF is: " << totalWaitTime / set.size() << endl;
+   cout << "There were " << totalContextSwitches - 1 << " context switches for SJF with a penalty of " << (totalContextSwitches-1)*CONTEXTSWITCH << " cycles" << endl;
+
+   cout << endl;
+   printCSV(finalQueue,totalCycleTime);
+}
+
+void runAsThread(vector<Process> set){
+   //Here we might be able to split the set into 4 and run the run function 4 times
+   //instead of creating threads
+}
+
+ReturnSJF runSJF(vector<Process> set){
    vector<Runtime> queue;
    vector<Runtime> finalQueue;
    int totalCycleTime = 0;
@@ -35,17 +58,8 @@ void runSJF(vector<Process> set){
       sort(queue.begin(),queue.end(),cmpRuntimes); 
    } 
 
-   int totalWaitTime = 0;
-   for(int i = 0; i < finalQueue.size(); i++){
-      totalWaitTime += finalQueue[i].waitTime;
-      //cout << finalQueue[i].p.pid << " " << finalQueue[i].waitTime << endl;
-   }
-   cout << "Average wait time for SJF is: " << totalWaitTime / set.size() << endl;
-   cout << "There were " << totalContextSwitches - 1 << " context switches for SJF with a penalty of " << (totalContextSwitches-1)*CONTEXTSWITCH << " cycles" << endl;
 
-   cout << endl;
-   //printHistogram(finalQueue,totalCycleTime);
-   printCSV(finalQueue,totalCycleTime);
+   return createReturnSJF(finalQueue,totalCycleTime,totalContextSwitches);
 
 }
 
@@ -87,6 +101,14 @@ bool cmpPid(const Runtime &a, const Runtime &b){
 //Sort by shortest cycles
 bool cmpRuntimes(const Runtime &a, const Runtime &b) {
    return a.p.cycles < b.p.cycles;
+}
+
+ReturnSJF createReturnSJF(vector<Runtime> q, int totalCycleTime, int totalContextSwitches){
+   ReturnSJF r;
+   r.q = q;
+   r.totalCycleTime = totalCycleTime;
+   r.totalContextSwitches = totalContextSwitches;
+   return r;
 }
 
 Runtime createNewRuntime(Process p, int cycleTime){
