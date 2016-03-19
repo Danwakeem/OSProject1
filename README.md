@@ -6,13 +6,11 @@ I added the SJF implmentation.
 
 Let me know if I am doing anything blatantly wrong.
 
-- Testing if these image links will work
-
 ## FIFO Graph
-![alt tag](https://www.dropbox.com/s/td3k7uy7c0so4eg/Screenshot%202016-03-19%2011.42.17.png?dl=0)
+![alt tag](http://i.imgur.com/Akiqo8y.png)
 
 ## SJF Graph
-![alt tag](https://www.dropbox.com/s/kldyiondrmb0eyf/Screenshot%202016-03-19%2011.42.36.png?dl=0)
+![alt tag](http://i.imgur.com/vtQPUNb.png)
 
 ## Round Robbin Graph
-![alt tag](https://www.dropbox.com/s/kldyiondrmb0eyf/Screenshot%202016-03-19%2011.42.36.png?dl=0)
+![alt tag](http://i.imgur.com/ZhlfKx3.png)
