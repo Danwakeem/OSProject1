@@ -9,7 +9,7 @@ This code is pretty awful so sorry if it is hard to follow. I am just trying to 
 - ~~Create Graphs for FIFO~~
 - ~~Create Graphs for SJF~~
 - ~~Create Graphs for Round Robbin~~
-- Implement threaded FIFO test
+- ~~Implement threaded FIFO test~~
 - ~~Implement threaded SJF test~~
 - ~~Implement threaded Round Robbing test~~
 
