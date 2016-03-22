@@ -1,6 +1,7 @@
 #include "roundRobbin.h"
 
 void runRoundRobbinOnce(vector<Process> set){
+   cout << "****** Round-Robin DATA SET ******" << endl;
    ReturnRR r = runRoundRobbin(set);
    vector<Robbin> queue = r.q;
    int penaltyCount = r.totalContextSwitches; 
@@ -16,7 +17,8 @@ void runRoundRobbinOnce(vector<Process> set){
    cout << "There were: " << penaltyCount << " context switches for round robbin with a penalty of: " << penaltyCount * CONTEXTSWITCH << " cycles" << endl;
    cout << endl;
    printCSV(queue);
-   cout << endl;
+
+   printContextSwitchInfo(penaltyCount,totalCycles);
 
 }
 
@@ -24,10 +26,12 @@ void runRoundRobbinAsThread(vector<Process> set){
    //Here we might be able to split the set into 4 and run the run function 4 times
    //instead of creating threads
    vector< vector<Process> > sets = breakIntoSubSet(set);
+   vector<Robbin> combinedRobbins;
 
    //Run SJF for 4 different CPUs on a sub set of the total sets
    int averageWaitTimeSum = 0;
    int totalContextSwitches = 0;
+   int totalCycles = 0;
 
    for(int i = 0; i < NUMCPU; i++){
       ReturnRR r = runRoundRobbin(sets[i]);
@@ -35,14 +39,26 @@ void runRoundRobbinAsThread(vector<Process> set){
       //Calculate average wait time for each CPU Round Robbin
       int totalWaitTimes = 0;
       for(int j = 0; j < r.q.size(); j++){
+         combinedRobbins.push_back(r.q[j]);
          totalWaitTimes += r.q[j].totalWaitTime;
       }
       averageWaitTimeSum += totalWaitTimes/r.q.size();
       totalContextSwitches += r.totalContextSwitches;
+      totalCycles = r.totalCycles;
    }
 
    cout << "Average wait time for threaded Round Robbin was " << averageWaitTimeSum / NUMCPU << endl;
-   cout << "Average context switches for threaded Round Robbin was " << totalContextSwitches / NUMCPU << endl << endl;
+   cout << "Average context switches for threaded Round Robbin was " << totalContextSwitches / NUMCPU << endl;
+
+   sort(combinedRobbins.begin(),combinedRobbins.end(),cmpPid);
+   cout << endl << "Multi CPU wait times" << endl;
+   printCSV(combinedRobbins);
+
+   printContextSwitchInfo(totalContextSwitches,totalCycles);
+}
+
+bool cmpPid(const Robbin &a, const Robbin &b){
+   return a.p.pid < b.p.pid;
 }
 
 ReturnRR runRoundRobbin(vector<Process> set){
@@ -62,7 +78,7 @@ ReturnRR runRoundRobbin(vector<Process> set){
       Robbin *r = &queue[vIndex];
       r->cyclesRemaining -= quantum; //Subtract time quantum from cycles remaining
       r->totalWaitTime += cycleCount - r->lastCycleCount; //Get the number of cycles waited
-      cycleCount += ROBBINQUANTUM; //Update the cycle count total
+      cycleCount += ROBBINQUANTUM + CONTEXTSWITCH; //Update the cycle count total
       r->lastCycleCount = cycleCount; //set last cycle count for the process
       quantum = ROBBINQUANTUM; //Reset the time quantum
 
@@ -84,10 +100,10 @@ ReturnRR runRoundRobbin(vector<Process> set){
             vIndex = -1;
          vIndex++; count++;
       }while(queue[vIndex].cyclesRemaining <= 0 && count < queue.size());
-      penaltyCount++;
+      penaltyCount++; 
    }
 
-   return createReturnRR(queue,penaltyCount*ROBBINQUANTUM,penaltyCount);
+   return createReturnRR(queue,cycleCount,penaltyCount);
 
 }
 

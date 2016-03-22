@@ -41,5 +41,6 @@ typedef struct RandomNumbers {
 }RandomNumbers;
 
 vector< vector<Process> > breakIntoSubSet(vector<Process> set);
+void printContextSwitchInfo(int totalSwitches, int totalCycles);
 
 #endif

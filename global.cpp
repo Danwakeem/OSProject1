@@ -9,3 +9,8 @@ vector< vector<Process> > breakIntoSubSet(vector<Process> set){
 
    return sets;
 }
+
+void printContextSwitchInfo(int totalSwitches, int totalCycles){
+   cout << "Context Switches," << totalSwitches << endl;
+   cout << "Other Cycles," << totalCycles - totalSwitches << endl << endl;
+}

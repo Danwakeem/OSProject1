@@ -19,6 +19,7 @@ void runRoundRobbinOnce(vector<Process> set);
 void runRoundRobbinAsThread(vector<Process> set);
 ReturnRR runRoundRobbin(vector<Process> set);
 void printCSV(vector<Robbin>queue);
+bool cmpPid(const Robbin &a, const Robbin &b);
 Robbin createNewRobbin(Process p, int cycleCount);
 ReturnRR createReturnRR(vector<Robbin> q, int totalCycles, int totalContextSwitches);
 
