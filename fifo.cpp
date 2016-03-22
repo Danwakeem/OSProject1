@@ -26,7 +26,7 @@ void runFifoAsThread(vector<Process> set){
    //Run FIFO for 4 different CPUs on a sub set of the total sets
    for(int i = 0; i < NUMCPU; i++){
       ReturnFIFO r = runFifo(sets[i]);
-      averageWaitTimeSum += r.totalWaitTimes;
+      averageWaitTimeSum += r.totalWaitTimes / sets[i].size();
       totalContextSwitches += r.totalContextSwitches;
    }
 
