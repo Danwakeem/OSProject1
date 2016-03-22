@@ -12,6 +12,7 @@ This code is pretty awful so sorry if it is hard to follow. I am just trying to 
 - ~~Implement threaded FIFO test~~
 - ~~Implement threaded SJF test~~
 - ~~Implement threaded Round Robbing test~~
+- Probably set it up to ask the user if they want to export all of the CSV files we used to generate our graphs.
 
 > The threaded tests should be fairly easy. I was wondering if we would even need to create threads at all? I think we could just split the original set of processes into 4 different sets and run each individually and then average together the averages of the wait times. Does that make sense? 
 
