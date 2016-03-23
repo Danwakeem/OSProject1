@@ -31,7 +31,7 @@ void runFifoAsThread(vector<Process> set){
    for(int i = 0; i < NUMCPU; i++){
       ReturnFIFO r = runFifo(sets[i]);
       averageWaitTimeSum += r.totalWaitTimes / sets[i].size();
-      totalContextSwitches += r.totalContextSwitches;
+      totalContextSwitches += r.totalContextSwitches - 1;
       totalCycles += r.totalCycles;
       for(int j = 0; j < r.totalWait.size(); j++){
          MultiCPU m;
@@ -52,7 +52,7 @@ void runFifoAsThread(vector<Process> set){
       cout << combinedSets[i].pid << "," << combinedSets[i].waitTime << "," << combinedSets[i].totalCycles << endl;
    }
  
-   printContextSwitchInfo((totalContextSwitches-1)*CONTEXTSWITCH,totalCycles);
+   printContextSwitchInfo(totalContextSwitches*CONTEXTSWITCH,totalCycles);
 }
 
 bool sortByPID(const MultiCPU &a, const MultiCPU &b){

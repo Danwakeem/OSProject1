@@ -44,7 +44,7 @@ void runSJFAsThread(vector<Process> set){
          totalWaitTimes += r.q[j].waitTime;
       }
       averageWaitTimeSum += totalWaitTimes/r.q.size();
-      totalContextSwitches += r.totalContextSwitches;
+      totalContextSwitches += r.totalContextSwitches - 1;
       totalCycles += r.totalCycleTime;
    }
 
@@ -55,7 +55,7 @@ void runSJFAsThread(vector<Process> set){
    cout << "MULTI CPU PRINT" << endl;
    printCSV(combinedRuntimes,totalCycles);
 
-   printContextSwitchInfo((totalContextSwitches-1)*CONTEXTSWITCH,totalCycles);
+   printContextSwitchInfo(totalContextSwitches*CONTEXTSWITCH,totalCycles);
 }
 
 ReturnSJF runSJF(vector<Process> set){

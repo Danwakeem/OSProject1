@@ -43,7 +43,7 @@ void runRoundRobbinAsThread(vector<Process> set){
          totalWaitTimes += r.q[j].totalWaitTime;
       }
       averageWaitTimeSum += totalWaitTimes/r.q.size();
-      totalContextSwitches += r.totalContextSwitches;
+      totalContextSwitches += r.totalContextSwitches - 1;
       totalCycles += r.totalCycles;
    }
 
@@ -54,7 +54,7 @@ void runRoundRobbinAsThread(vector<Process> set){
    cout << endl << "Multi CPU wait times" << endl;
    printCSV(combinedRobbins);
 
-   printContextSwitchInfo((totalContextSwitches-1)*CONTEXTSWITCH,totalCycles);
+   printContextSwitchInfo(totalContextSwitches*CONTEXTSWITCH,totalCycles);
 }
 
 bool cmpPid(const Robbin &a, const Robbin &b){
