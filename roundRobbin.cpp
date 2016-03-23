@@ -44,7 +44,7 @@ void runRoundRobbinAsThread(vector<Process> set){
       }
       averageWaitTimeSum += totalWaitTimes/r.q.size();
       totalContextSwitches += r.totalContextSwitches;
-      totalCycles = r.totalCycles;
+      totalCycles += r.totalCycles;
    }
 
    cout << "Average wait time for threaded Round Robbin was " << averageWaitTimeSum / NUMCPU << endl;
