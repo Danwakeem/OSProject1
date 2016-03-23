@@ -18,7 +18,7 @@ void runRoundRobbinOnce(vector<Process> set){
    cout << endl;
    printCSV(queue);
 
-   printContextSwitchInfo(penaltyCount,totalCycles);
+   printContextSwitchInfo((penaltyCount-1)*CONTEXTSWITCH,totalCycles);
 
 }
 
@@ -54,7 +54,7 @@ void runRoundRobbinAsThread(vector<Process> set){
    cout << endl << "Multi CPU wait times" << endl;
    printCSV(combinedRobbins);
 
-   printContextSwitchInfo(totalContextSwitches*CONTEXTSWITCH,totalCycles);
+   printContextSwitchInfo((totalContextSwitches-1)*CONTEXTSWITCH,totalCycles);
 }
 
 bool cmpPid(const Robbin &a, const Robbin &b){
